@@ -25,12 +25,12 @@ namespace MagazineAPI
             await Task.WhenAll(parallelTasks);
 
             // hashmap of magezineId -> categoryId
-            var matToCatMap = tMags
+            var magToCatMap = tMags
                 .SelectMany(t => t.Result)
                 .ToDictionary(t => t.Id, t => t.Category);
 
             var matchingSubIds = tSubs.Result
-                .Where(s => s.MagazineIds.Select(m => matToCatMap[m]).Distinct().Count() == categories.Count)
+                .Where(s => s.MagazineIds.Select(m => magToCatMap[m]).Distinct().Count() == categories.Count)
                 .Select(s => s.Id)
                 .ToArray();
 
